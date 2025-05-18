@@ -18,8 +18,6 @@ from typing import TypeAlias
 from langchain_core.tools import tool
 
 
-IMAP_HOST = "imap.yandex.com"
-IMAP_PORT = 993
 SAVE_ATTACHMENTS_DIRECTORY = "attachments"
 
 
@@ -71,7 +69,9 @@ def fetch_recent_emails(days: int = 3) -> list[Email]:
     """Возвращает почтовые сообщения и вложения за последние *days* суток."""
     user = os.getenv("EMAIL_LOGIN")
     password = os.getenv("EMAIL_PASSWORD")
-    if not user or not password:
+    imap_host = os.getenv("EMAIL_IMAP_HOST")
+    imap_port = os.getenv("EMAIL_IMAP_PORT")
+    if not all((user, password, imap_host, imap_port)):
         raise IncorrectEnvVariables("set correct env variables")
 
     emails: list[Email] = []
@@ -79,7 +79,7 @@ def fetch_recent_emails(days: int = 3) -> list[Email]:
     since_str = _imap_date(since)
 
     # ── Подключаемся ────────────────────────────────────────────────────────────
-    imap = imaplib.IMAP4_SSL(IMAP_HOST, IMAP_PORT)
+    imap = imaplib.IMAP4_SSL(imap_host, imap_port)
     imap.login(user, password)
     imap.select("INBOX")
 
