@@ -17,7 +17,7 @@ from mail import fetch_recent_emails
 
 load_dotenv(find_dotenv())
 
-REQUISITES_FILE = "Реквизиты ПАО МТС.docx"
+REQUISITES_FILE = "Карточка НТЦ Татнефть.docx"
 
 
 @dataclass
@@ -78,6 +78,37 @@ def generate_pdf_act(customer: Customer, jobs: list[Job]) -> None:
         print(e.stderr)
 
 
+@tool
+def generate_pdf_invoice(customer: Customer, jobs: list[Job]) -> None:
+    """
+    Генерирует PDF-счёт, в котором заполнены данные
+    клиента, а также выполненные задачи
+
+    Args:
+        customer (Customer): данные клиента
+        jobs (list[Job]): список выполненных задач для внесения в акт
+
+    Returns:
+        None
+    """
+    invoice_json = {
+        "customer": asdict(customer),
+        "jobs": list(map(
+            lambda j: asdict(j), jobs
+        ))
+    }
+    with open(os.path.join("typst", "invoice.json"), "w") as f:
+        json.dump(invoice_json, f, ensure_ascii=False)
+    command = ["typst", "compile", "--root", "./typst", "typst/invoice.typ"]
+    try:
+        subprocess.run(command,
+                       check=True,
+                       stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE, text=True)
+    except subprocess.CalledProcessError as e:
+        print(e.stderr)
+
+
 class LLMAgent:
     def __init__(self, model: LanguageModelLike, tools: Sequence[BaseTool]):
         self._model = model
@@ -126,44 +157,24 @@ def main():
         verify_ssl_certs=False,
     )
 
-    # Первый агент ищет файл с реквизитами на почте
-    agent = LLMAgent(model, tools=[fetch_recent_emails])
+    agent = LLMAgent(model, tools=[generate_pdf_act, generate_pdf_invoice])
     system_prompt = (
-        "Твоя задача найти файл, содержащиё реквизиты компании в одном из писем на "
-        "почте. Запроси, за сколько дней искать письма. Найди имя этого файла и "
-        "выведи его в ответе строго в формате FILE_NAME: <имя>. Если файл не удалось "
-        "найти, ответь строго: NOT_FOUND"
-    )
-
-    agent_response = agent.invoke(system_prompt)
-    # Для простой демонстрации просто спрашиваем, пока модель не даст название файла,
-    # в реальном использовании стоит использовать LangGraph, см.
-    # https://vijaykumarkartha.medium.com/multiple-ai-agents-creating-multi-agent-workflows-using-langgraph-and-langchain-0587406ec4e6
-    while True:
-        print_agent_response(agent_response)
-        if "FILE_NAME:" in agent_response:
-            filename = agent_response.split("FILE_NAME:")[1].strip()
-            break
-        if "NOT_FOUND" in agent_response:
-            exit("ничего не получилось, на почте не нашёлся файл с реквизитами!")
-        agent_response = agent.invoke(get_user_prompt())
-
-    
-    # Второй агент выгружает файл с реквизитами в LLM и создаёт акт с реквизитами 
-    # из этого докуиента
-    agent = LLMAgent(model, tools=[generate_pdf_act])
-    system_prompt = (
-        "Твоя задача сгенерировать акт, для этого тебе надо взять реквизиты "
+        "Твоя задача спросить у пользователя, что он хочет сгенерировать — акт или счёт или оба документа. "
+        "Затем нужно сгенерировать акт или счёт, для этого тебе надо взять реквизиты "
         "контрагента из приложенного файла, а также запроси работы для включения в "
         "акт (наименования задач и их стоимость), работ может быть несколько. "
+        "Если пользователь указывает в качетсве работы курс, то для документов берём одну работу, в точности такую "
+        "\"Обучение одного сотрудника на курсе «Хардкорная веб-разработка»\", стоимостью 170 тыс руб."
         "Никакие данные не придумывай, всё необходимое строго запроси у "
-        "пользователя. Имя и отчество подписанта сокращаем до одной первой буквы, "
+        "пользователя. Мои реквизиты заказчика не запрашивай, они есть в моём коде. "
+        "Имя и отчество подписанта сокращаем до одной первой буквы, "
         "например, Иванов А.Е. "
         "Название компании оборачиваем в кавычки ёлочкой, например, "
         "ООО «Рога и копыта», то есть до названия компании ставим « и после названия "
         "ставим »."
     )
-    file_uploaded_id= agent.upload_file(open(f"attachments/{filename}", "rb"))
+
+    file_uploaded_id= agent.upload_file(open(REQUISITES_FILE, "rb"))
     agent_response = agent.invoke(content=system_prompt, attachments=[file_uploaded_id])
 
     while(True):

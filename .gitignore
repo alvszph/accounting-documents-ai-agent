@@ -16,3 +16,6 @@ wheels/
 *.json
 
 attachments
+
+*docx:Zone.Identifier
+

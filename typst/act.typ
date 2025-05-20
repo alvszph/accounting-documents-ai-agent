@@ -23,10 +23,10 @@
   [№], [Наименование товара], [Ед. изм.], [Кол-во], [Цена, ₽], [Сумма, ₽],
   ..for (index, job) in act.jobs.enumerate() {(
     [
-      #(index + 1)
+      #align(center)[#(index + 1)]
     ],[
       #job.at("task")
-    ], [шт], [1], [
+    ], [#align(center)[шт]], [#align(center)[1]], [
       #align(center)[#num(job.at("price"))]
     ],[
       #align(center)[#num(job.at("price"))]

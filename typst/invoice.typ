@@ -66,9 +66,9 @@
       #align(center)[#num(job.at("price"))]
     ]
   )},
-  table.cell(colspan: 5, stroke: none, align: right)[*Итого:*], table.cell(align: center)[170 000],
+  table.cell(colspan: 5, stroke: none, align: right)[*Итого:*], table.cell(align: center)[#num(invoice_overall_sum)],
   table.cell(colspan: 5, stroke: none, align: right)[*НДС:*], table.cell(align: center)[не облагается],
-  table.cell(colspan: 5, stroke: none, align: right)[*Всего к оплате:*], table.cell(align: center)[170 000],
+  table.cell(colspan: 5, stroke: none, align: right)[*Всего к оплате:*], table.cell(align: center)[#num(invoice_overall_sum)],
 )
 
 Всего наименований #invoice_jobs_count , на сумму #num(invoice_overall_sum) (#ru-words(invoice_overall_sum)) руб ноль копеек. Оплачивая настоящий счёт, вы присоединяетесь к Оферте, опубликованной на сайте https://to.digital/oferta.pdf.
